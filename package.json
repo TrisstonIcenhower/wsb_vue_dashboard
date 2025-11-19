@@ -1,6 +1,8 @@
 {
   "name": "wsb_vue_dashboard",
-  "version": "0.0.0",
+  "author": "Trisston Icenhower",
+  "description": "An app accessing a public api to use for learning/practing vue.",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -14,6 +16,7 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "axios": "^1.13.2",
     "vue": "^3.5.22"
   },
   "devDependencies": {

@@ -1,11 +1,91 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import axios from "axios";
+import { computed, reactive, ref, type Ref } from "vue";
+import WSBOverview from "./components/WSBOverview.vue";
+import StockView from "./components/StockView.vue";
+import WSBSummary from "./components/WSBSummary.vue";
+
+export interface WSBTicker {
+  ticker: string;
+  sentiment: string;
+  sentiment_score: number;
+  no_of_comments: number;
+}
+
+export interface OverviewStats {
+  numBullishTickers: number;
+  numBearishTickers: number;
+  numTotalTickers: number;
+  totalComments: number;
+}
+
+async function getInfo() {
+  await axios
+    .get<WSBTicker[]>("https://api.tradestie.com/v1/apps/reddit")
+    .then((response) => {
+      bullishTickers.value = response.data.filter(
+        (ticker) => ticker.sentiment === "Bullish"
+      );
+      bearishTickers.value = response.data.filter(
+        (ticker) => ticker.sentiment === "Bearish"
+      );
+    });
+}
+
+let bullishTickers: Ref<WSBTicker[] | null> = ref(null);
+let bearishTickers: Ref<WSBTicker[] | null> = ref(null);
+let currentTicker: Ref<WSBTicker | null> = ref(null);
+
+let overview: OverviewStats = reactive<OverviewStats>({
+  numBearishTickers: 0,
+  numTotalTickers: 0,
+  numBullishTickers: 0,
+  totalComments: 0,
+});
+
+getInfo().then(() => {
+  (overview.numBullishTickers = bullishTickers.value?.length ?? 0),
+    (overview.numBearishTickers = bearishTickers.value?.length ?? 0),
+    (overview.numTotalTickers =
+      (bullishTickers.value?.length ?? 0) +
+      (bearishTickers.value?.length ?? 0)),
+    (overview.totalComments =
+      bullishTickers.value.reduce((a, s) => a + s.no_of_comments, 0) +
+      bearishTickers.value.reduce((a, s) => a + s.no_of_comments, 0));
+});
+
+const displayType = computed(() => {
+  if (currentTicker.value === null) {
+    return "main-overview";
+  } else {
+    return "main-stock-view";
+  }
+});
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <main :class="displayType">
+    <header class="header"><h1>Wall Street Bets Dashboard</h1></header>
+    <div v-if="currentTicker === null" class="breakdown">
+      <WSBSummary :overview="overview"></WSBSummary>
+    </div>
+    <WSBOverview
+      v-if="currentTicker === null"
+      :bear-stocks="bearishTickers"
+      ,
+      :bull-stocks="bullishTickers"
+      @choose-ticker="(stock) => (currentTicker = stock)"
+    ></WSBOverview>
+    <StockView
+      v-else
+      :stock="currentTicker"
+      @clear-current-ticker="currentTicker = null"
+    ></StockView>
+  </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+header {
+  font-size: large;
+}
+</style>
