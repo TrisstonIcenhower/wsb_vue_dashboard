@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { WSBTicker } from "@/App.vue";
-import { computed, defineEmits } from "vue";
+import { computed, defineEmits, type ComputedRef } from "vue";
 
 const { stock } = defineProps<{
   stock: WSBTicker | null;
 }>();
 
-const sentimentRotation: number = computed<number>(() => {
+const sentimentRotation: ComputedRef<number> = computed<number>(() => {
   const score = stock?.sentiment_score ?? 0;
   return score * 90;
 });

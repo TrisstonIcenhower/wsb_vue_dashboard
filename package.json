@@ -2,7 +2,7 @@
   "name": "wsb_vue_dashboard",
   "author": "Trisston Icenhower",
   "description": "An app accessing a public api to use for learning/practing vue.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "engines": {

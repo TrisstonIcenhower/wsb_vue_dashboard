@@ -3,7 +3,7 @@
     import { defineEmits } from 'vue';
 
     const props = defineProps<{
-        stocks: WSBTicker[] | null,
+        stocks: WSBTicker[],
         title: String,
 
     }>();

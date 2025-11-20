@@ -3,8 +3,8 @@
     import StockList from './StockList.vue';
     
     const props = defineProps<{
-        bullStocks: WSBTicker[] | null,
-        bearStocks: WSBTicker[] | null,
+        bullStocks: WSBTicker[],
+        bearStocks: WSBTicker[],
     }>();
 
     const emit = defineEmits(['chooseTicker']);

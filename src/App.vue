@@ -32,9 +32,25 @@ async function getInfo() {
     });
 }
 
-let bullishTickers: Ref<WSBTicker[] | null> = ref(null);
-let bearishTickers: Ref<WSBTicker[] | null> = ref(null);
-let currentTicker: Ref<WSBTicker | null> = ref(null);
+function setTicker(currentTicker: WSBTicker, stock: WSBTicker){
+  currentTicker.ticker = stock.ticker;
+  currentTicker.sentiment = stock.sentiment;
+  currentTicker.sentiment_score = stock.sentiment_score;
+  currentTicker.no_of_comments = stock.no_of_comments;
+}
+
+function clearTicker(currentTicker: WSBTicker){
+  currentTicker.ticker = '';
+  currentTicker.sentiment = '';
+  currentTicker.sentiment_score = 0;
+  currentTicker.no_of_comments = 0;
+}
+
+let bullishTickers: Ref<WSBTicker[]> = ref([]);
+let bearishTickers: Ref<WSBTicker[]> = ref([]);
+let currentTicker: Ref<WSBTicker> = ref<WSBTicker>({
+  ticker: '', sentiment: '', sentiment_score: 0, no_of_comments: 0
+});
 
 let overview: OverviewStats = reactive<OverviewStats>({
   numBearishTickers: 0,
@@ -55,7 +71,7 @@ getInfo().then(() => {
 });
 
 const displayType = computed(() => {
-  if (currentTicker.value === null) {
+  if (currentTicker.value.ticker === '') {
     return "main-overview";
   } else {
     return "main-stock-view";
@@ -66,20 +82,20 @@ const displayType = computed(() => {
 <template>
   <main :class="displayType">
     <header class="header"><h1>Wall Street Bets Dashboard</h1></header>
-    <div v-if="currentTicker === null" class="breakdown">
+    <div v-if="currentTicker.ticker === ''" class="breakdown">
       <WSBSummary :overview="overview"></WSBSummary>
     </div>
     <WSBOverview
-      v-if="currentTicker === null"
+      v-if="currentTicker.ticker === ''"
       :bear-stocks="bearishTickers"
       ,
       :bull-stocks="bullishTickers"
-      @choose-ticker="(stock) => (currentTicker = stock)"
+      @choose-ticker="(stock) => (setTicker(currentTicker, stock))"
     ></WSBOverview>
     <StockView
       v-else
       :stock="currentTicker"
-      @clear-current-ticker="currentTicker = null"
+      @clear-current-ticker="clearTicker(currentTicker)"
     ></StockView>
   </main>
 </template>

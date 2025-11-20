@@ -2,7 +2,7 @@
 import type { OverviewStats } from "@/App.vue";
 
 const props = defineProps<{
-  overview: OverviewStats | null;
+  overview: OverviewStats;
 }>();
 
 </script>
@@ -14,15 +14,15 @@ const props = defineProps<{
       class="pie"
       :style="{
         backgroundImage: `conic-gradient(var(--emerald) ${
-          (overview?.numBullishTickers / overview?.numTotalTickers) * 100
+          (overview.numBullishTickers / overview.numTotalTickers) * 100
         }%, var(--tangerine-dream) ${
-          (overview?.numBearishTickers / overview?.numTotalTickers) * 100
+          (overview.numBearishTickers / overview.numTotalTickers) * 100
         }% )`,
       }"
     ></div>
-    <div class="pie-info"><div style="width: 10px; height: 10px; background-color: var(--emerald); border-radius: 50%;"></div><h2>Bullish Stocks {{ (overview?.numBullishTickers / overview?.numTotalTickers) * 100 }}%</h2></div>
-    <div class="pie-info"><div style="width: 10px; height: 10px; background-color: var(--tangerine-dream); border-radius: 50%;"></div><h2>Bearish Stocks {{ (overview?.numBearishTickers / overview?.numTotalTickers) * 100 }}%</h2></div>
-    <div class="pie-info">Total Comments Reported: {{ overview?.totalComments }}</div>
+    <div class="pie-info"><div style="width: 10px; height: 10px; background-color: var(--emerald); border-radius: 50%;"></div><h2>Bullish Stocks {{ (overview.numBullishTickers / overview.numTotalTickers) * 100 }}%</h2></div>
+    <div class="pie-info"><div style="width: 10px; height: 10px; background-color: var(--tangerine-dream); border-radius: 50%;"></div><h2>Bearish Stocks {{ (overview.numBearishTickers / overview.numTotalTickers) * 100 }}%</h2></div>
+    <div class="pie-info">Total Comments Reported: {{ overview.totalComments }}</div>
     <div class="pie-info">Info gathered from <a href="https://tradestie.com/apps/reddit/api/" target="_blank">tradestie.com</a></div>
   </div>
 </template>
