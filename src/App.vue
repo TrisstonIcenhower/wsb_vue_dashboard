@@ -4,6 +4,8 @@ import { computed, reactive, ref, type Ref } from "vue";
 import WSBOverview from "./components/WSBOverview.vue";
 import StockView from "./components/StockView.vue";
 import WSBSummary from "./components/WSBSummary.vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faSquareGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
 export interface WSBTicker {
   ticker: string;
@@ -32,16 +34,16 @@ async function getInfo() {
     });
 }
 
-function setTicker(currentTicker: WSBTicker, stock: WSBTicker){
+function setTicker(currentTicker: WSBTicker, stock: WSBTicker) {
   currentTicker.ticker = stock.ticker;
   currentTicker.sentiment = stock.sentiment;
   currentTicker.sentiment_score = stock.sentiment_score;
   currentTicker.no_of_comments = stock.no_of_comments;
 }
 
-function clearTicker(currentTicker: WSBTicker){
-  currentTicker.ticker = '';
-  currentTicker.sentiment = '';
+function clearTicker(currentTicker: WSBTicker) {
+  currentTicker.ticker = "";
+  currentTicker.sentiment = "";
   currentTicker.sentiment_score = 0;
   currentTicker.no_of_comments = 0;
 }
@@ -49,7 +51,10 @@ function clearTicker(currentTicker: WSBTicker){
 let bullishTickers: Ref<WSBTicker[]> = ref([]);
 let bearishTickers: Ref<WSBTicker[]> = ref([]);
 let currentTicker: Ref<WSBTicker> = ref<WSBTicker>({
-  ticker: '', sentiment: '', sentiment_score: 0, no_of_comments: 0
+  ticker: "",
+  sentiment: "",
+  sentiment_score: 0,
+  no_of_comments: 0,
 });
 
 let overview: OverviewStats = reactive<OverviewStats>({
@@ -71,7 +76,7 @@ getInfo().then(() => {
 });
 
 const displayType = computed(() => {
-  if (currentTicker.value.ticker === '') {
+  if (currentTicker.value.ticker === "") {
     return "main-overview";
   } else {
     return "main-stock-view";
@@ -80,8 +85,8 @@ const displayType = computed(() => {
 </script>
 
 <template>
+  <header class="header"><h1>Wall Street Bets Dashboard</h1></header>
   <main :class="displayType">
-    <header class="header"><h1>Wall Street Bets Dashboard</h1></header>
     <div v-if="currentTicker.ticker === ''" class="breakdown">
       <WSBSummary :overview="overview"></WSBSummary>
     </div>
@@ -90,7 +95,7 @@ const displayType = computed(() => {
       :bear-stocks="bearishTickers"
       ,
       :bull-stocks="bullishTickers"
-      @choose-ticker="(stock) => (setTicker(currentTicker, stock))"
+      @choose-ticker="(stock) => setTicker(currentTicker, stock)"
     ></WSBOverview>
     <StockView
       v-else
@@ -98,6 +103,10 @@ const displayType = computed(() => {
       @clear-current-ticker="clearTicker(currentTicker)"
     ></StockView>
   </main>
+  <footer>
+    <a href="https://github.com/TrisstonIcenhower" target="_blank" rel="noopener noreferrer"><FontAwesomeIcon class="social-link" :icon="faSquareGithub" /></a>
+   <a href="https://www.linkedin.com/in/trisstonicenhower/" target="_blank" rel="noopener noreferrer"> <FontAwesomeIcon class="social-link" :icon="faLinkedin" /></a>
+  </footer>
 </template>
 
 <style scoped>

@@ -1,42 +1,43 @@
 # wsb_vue_dashboard
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+A lightweight, fast, Vue 3 + TypeScript + Vite dashboard for visualizing WallStreetBets ticker data, including sentiment scores, mentions, and detailed per-ticker analysis.
+This project is structured for clarity, scalability, and extendability.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 🚀 Features
 
-## Recommended Browser Setup
+- Live WSB Ticker Overview
+Displays sentiment (bullish/bearish), comment counts, mention volume, and score.
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- Dynamic Stock Views
+Click any ticker to view a detailed breakdown.
 
-## Type Support for `.vue` Imports in TS
+- Reusable Vue Components
+Modular, typed components for summary, overview, lists, and details.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- TypeScript Everywhere
+Strong typing for safer, more predictable development.
 
-## Customize configuration
+- Vite-Powered Fast Dev
+Instant server start, fast HMR, and optimized builds.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## 📦 Installation
 
-## Project Setup
+- Make sure you have Node.js 18+ installed.
 
-```sh
-npm install
-```
+<code>npm install</code>
 
-### Compile and Hot-Reload for Development
+### 🏃 Running the Dev Server
+<code>npm run dev</code>
 
-```sh
-npm run dev
-```
+This launches the Vite development server (usually on localhost:5173).
 
-### Type-Check, Compile and Minify for Production
+### 🏗️ Building for Production
+<code>npm run build</code>
 
-```sh
-npm run build
-```
+Outputs to the /dist directory.
+
+Preview production build:
+
+<code>npm run preview</code>
+
